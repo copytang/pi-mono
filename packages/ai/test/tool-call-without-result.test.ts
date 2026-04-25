@@ -310,4 +310,12 @@ describe("Tool Call Without Result Tests", () => {
 			},
 		);
 	});
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark Provider", () => {
+		const model = getModel("ark", "doubao-pro-32k");
+
+		it("should filter out tool calls without corresponding tool results", { retry: 3, timeout: 30000 }, async () => {
+			await testToolCallWithoutResult(model);
+		});
+	});
 });

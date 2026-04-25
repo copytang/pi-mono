@@ -1647,6 +1647,60 @@ async function generateModels() {
 		}));
 	allModels.push(...azureOpenAiModels);
 
+	// Ark (Volcano Engine) models
+	const ARK_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3";
+	const arkModels: Model<"ark-responses">[] = [
+		{
+			id: "doubao-pro-32k",
+			name: "Doubao Pro 32K",
+			api: "ark-responses",
+			provider: "ark",
+			baseUrl: ARK_BASE_URL,
+			reasoning: false,
+			input: ["text", "image"],
+			cost: { input: 0.8, output: 2, cacheRead: 0.8, cacheWrite: 0 },
+			contextWindow: 32768,
+			maxTokens: 8192,
+		},
+		{
+			id: "doubao-lite-32k",
+			name: "Doubao Lite 32K",
+			api: "ark-responses",
+			provider: "ark",
+			baseUrl: ARK_BASE_URL,
+			reasoning: false,
+			input: ["text"],
+			cost: { input: 0.3, output: 0.6, cacheRead: 0.3, cacheWrite: 0 },
+			contextWindow: 32768,
+			maxTokens: 4096,
+		},
+		{
+			id: "deepseek-r1",
+			name: "DeepSeek R1",
+			api: "ark-responses",
+			provider: "ark",
+			baseUrl: ARK_BASE_URL,
+			reasoning: true,
+			input: ["text"],
+			cost: { input: 2, output: 8, cacheRead: 0.5, cacheWrite: 0 },
+			contextWindow: 64000,
+			maxTokens: 8192,
+		},
+		{
+			id: "deepseek-v3",
+			name: "DeepSeek V3",
+			api: "ark-responses",
+			provider: "ark",
+			baseUrl: ARK_BASE_URL,
+			reasoning: false,
+			input: ["text"],
+			cost: { input: 2, output: 8, cacheRead: 0.5, cacheWrite: 0 },
+			contextWindow: 64000,
+			maxTokens: 8192,
+		},
+	];
+	allModels.push(...arkModels);
+
 	// Group by provider and deduplicate by model ID
 	const providers: Record<string, Record<string, Model<any>>> = {};
 	for (const model of allModels) {

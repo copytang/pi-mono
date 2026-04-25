@@ -12,6 +12,7 @@ import type {
 import { AssistantMessageEventStream } from "../utils/event-stream.js";
 import type { BedrockOptions } from "./amazon-bedrock.js";
 import type { AnthropicOptions } from "./anthropic.js";
+import type { ArkOptions } from "./ark.js";
 import type { AzureOpenAIResponsesOptions } from "./azure-openai-responses.js";
 import type { GoogleOptions } from "./google.js";
 import type { GoogleGeminiCliOptions } from "./google-gemini-cli.js";
@@ -92,6 +93,11 @@ interface BedrockProviderModule {
 	) => AsyncIterable<AssistantMessageEvent>;
 }
 
+interface ArkProviderModule {
+	streamArk: StreamFunction<"ark-responses", ArkOptions>;
+	streamSimpleArk: StreamFunction<"ark-responses", SimpleStreamOptions>;
+}
+
 const importNodeOnlyProvider = (specifier: string): Promise<unknown> => import(specifier);
 
 let anthropicProviderModulePromise:
@@ -127,6 +133,7 @@ let bedrockProviderModuleOverride:
 let bedrockProviderModulePromise:
 	| Promise<LazyProviderModule<"bedrock-converse-stream", BedrockOptions, SimpleStreamOptions>>
 	| undefined;
+let arkProviderModulePromise: Promise<LazyProviderModule<"ark-responses", ArkOptions, SimpleStreamOptions>> | undefined;
 
 export function setBedrockProviderModule(module: BedrockProviderModule): void {
 	bedrockProviderModuleOverride = {
@@ -342,6 +349,17 @@ function loadBedrockProviderModule(): Promise<
 	return bedrockProviderModulePromise;
 }
 
+function loadArkProviderModule(): Promise<LazyProviderModule<"ark-responses", ArkOptions, SimpleStreamOptions>> {
+	arkProviderModulePromise ||= import("./ark.js").then((module) => {
+		const provider = module as ArkProviderModule;
+		return {
+			stream: provider.streamArk,
+			streamSimple: provider.streamSimpleArk,
+		};
+	});
+	return arkProviderModulePromise;
+}
+
 export const streamAnthropic = createLazyStream(loadAnthropicProviderModule);
 export const streamSimpleAnthropic = createLazySimpleStream(loadAnthropicProviderModule);
 export const streamAzureOpenAIResponses = createLazyStream(loadAzureOpenAIResponsesProviderModule);
@@ -362,6 +380,8 @@ export const streamOpenAIResponses = createLazyStream(loadOpenAIResponsesProvide
 export const streamSimpleOpenAIResponses = createLazySimpleStream(loadOpenAIResponsesProviderModule);
 const streamBedrockLazy = createLazyStream(loadBedrockProviderModule);
 const streamSimpleBedrockLazy = createLazySimpleStream(loadBedrockProviderModule);
+export const streamArk = createLazyStream(loadArkProviderModule);
+export const streamSimpleArk = createLazySimpleStream(loadArkProviderModule);
 
 export function registerBuiltInApiProviders(): void {
 	registerApiProvider({
@@ -422,6 +442,12 @@ export function registerBuiltInApiProviders(): void {
 		api: "bedrock-converse-stream",
 		stream: streamBedrockLazy,
 		streamSimple: streamSimpleBedrockLazy,
+	});
+
+	registerApiProvider({
+		api: "ark-responses",
+		stream: streamArk,
+		streamSimple: streamSimpleArk,
 	});
 }
 

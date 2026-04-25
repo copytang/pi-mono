@@ -257,4 +257,16 @@ describe("AI Providers Abort Tests", () => {
 			await testAbortThenNewMessage(llm);
 		});
 	});
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark Provider Abort", () => {
+		const llm = getModel("ark", "doubao-pro-32k");
+
+		it("should abort mid-stream", { retry: 3 }, async () => {
+			await testAbortSignal(llm);
+		});
+
+		it("should handle immediate abort", { retry: 3 }, async () => {
+			await testImmediateAbort(llm);
+		});
+	});
 });

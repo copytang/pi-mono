@@ -478,4 +478,16 @@ describe("Tool Results with Images", () => {
 			},
 		);
 	});
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark Provider (doubao-pro-32k)", () => {
+		const llm = getModel("ark", "doubao-pro-32k");
+
+		it("should handle tool result with only image", { retry: 3, timeout: 30000 }, async () => {
+			await handleToolWithImageResult(llm);
+		});
+
+		it("should handle tool result with text and image", { retry: 3, timeout: 30000 }, async () => {
+			await handleToolWithTextAndImageResult(llm);
+		});
+	});
 });

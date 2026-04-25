@@ -692,4 +692,27 @@ describe("totalTokens field", () => {
 			},
 		);
 	});
+
+	// =========================================================================
+	// Ark (Volcano Engine)
+	// =========================================================================
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark", () => {
+		it(
+			"doubao-pro-32k - should return totalTokens equal to sum of components",
+			{ retry: 3, timeout: 60000 },
+			async () => {
+				const llm = getModel("ark", "doubao-pro-32k");
+
+				console.log(`\nArk / ${llm.id}:`);
+				const { first, second } = await testTotalTokensWithCache(llm);
+
+				logUsage("First request", first);
+				logUsage("Second request", second);
+
+				assertTotalTokensEqualsComponents(first);
+				assertTotalTokensEqualsComponents(second);
+			},
+		);
+	});
 });

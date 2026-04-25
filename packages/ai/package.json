@@ -53,6 +53,10 @@
 		"./bedrock-provider": {
 			"types": "./dist/bedrock-provider.d.ts",
 			"import": "./dist/bedrock-provider.js"
+		},
+		"./ark": {
+			"types": "./dist/providers/ark.d.ts",
+			"import": "./dist/providers/ark.js"
 		}
 	},
 	"bin": {

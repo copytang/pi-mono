@@ -104,6 +104,9 @@ const PROVIDER_MODEL_PAIRS: ProviderModelPair[] = [
 	// OpenCode Go
 	{ provider: "opencode-go", model: "kimi-k2.5", label: "go-kimi-k2.5" },
 	{ provider: "opencode-go", model: "minimax-m2.5", label: "go-minimax-m2.5" },
+	// Ark
+	{ provider: "ark", model: "doubao-pro-32k", label: "ark-doubao-pro-32k" },
+	{ provider: "ark", model: "deepseek-r1", label: "ark-deepseek-r1" },
 ];
 
 // Cached context structure

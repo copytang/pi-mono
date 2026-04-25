@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added Ark (Volcano Engine) provider support with `ARK_API_KEY` authentication and default model `doubao-pro-32k`.
 - Added `ctx.ui.setWorkingVisible()` so extensions can hide the built-in interactive working loader row without reserving layout space, plus a border-status editor example that moves working state into a custom editor border ([#3674](https://github.com/badlogic/pi-mono/issues/3674))
 
 ### Fixed

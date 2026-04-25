@@ -301,4 +301,12 @@ describe("Token Statistics on Abort", () => {
 			await testTokensOnAbort(llm);
 		});
 	});
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark Provider", () => {
+		const llm = getModel("ark", "doubao-pro-32k");
+
+		it("should include token stats when aborted mid-stream", { retry: 3, timeout: 30000 }, async () => {
+			await testTokensOnAbort(llm);
+		});
+	});
 });

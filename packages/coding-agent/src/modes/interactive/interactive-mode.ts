@@ -179,6 +179,7 @@ const BEDROCK_PROVIDER_ID = "amazon-bedrock";
 
 const API_KEY_LOGIN_PROVIDERS: Record<string, string> = {
 	anthropic: "Anthropic",
+	ark: "Ark (Volcano Engine)",
 	[BEDROCK_PROVIDER_ID]: "Amazon Bedrock",
 	"azure-openai-responses": "Azure OpenAI Responses",
 	cerebras: "Cerebras",

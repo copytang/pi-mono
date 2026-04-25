@@ -12,7 +12,8 @@ export type KnownApi =
 	| "bedrock-converse-stream"
 	| "google-generative-ai"
 	| "google-gemini-cli"
-	| "google-vertex";
+	| "google-vertex"
+	| "ark-responses";
 
 export type Api = KnownApi | (string & {});
 
@@ -41,7 +42,8 @@ export type KnownProvider =
 	| "fireworks"
 	| "opencode"
 	| "opencode-go"
-	| "kimi-coding";
+	| "kimi-coding"
+	| "ark";
 export type Provider = KnownProvider | string;
 
 export type ThinkingLevel = "minimal" | "low" | "medium" | "high" | "xhigh";

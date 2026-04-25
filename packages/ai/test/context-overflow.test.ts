@@ -711,4 +711,19 @@ describe("Context overflow error handling", () => {
 			expect(isContextOverflow(result.response, model.contextWindow)).toBe(true);
 		}, 120000);
 	});
+
+	// =============================================================================
+	// Ark (Volcano Engine)
+	// =============================================================================
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark", () => {
+		it("doubao-pro-32k - should detect overflow via isContextOverflow", async () => {
+			const model = getModel("ark", "doubao-pro-32k");
+			const result = await testContextOverflow(model, process.env.ARK_API_KEY!);
+			logResult(result);
+
+			expect(result.stopReason).toBe("error");
+			expect(isContextOverflow(result.response, model.contextWindow)).toBe(true);
+		}, 120000);
+	});
 });

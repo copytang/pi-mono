@@ -1432,4 +1432,20 @@ describe("Generate E2E Tests", () => {
 			await multiTurn(llm, { apiKey: "test", reasoningEffort: "medium" });
 		});
 	});
+
+	describe.skipIf(!process.env.ARK_API_KEY)("Ark Provider (doubao-pro-32k via Responses API)", () => {
+		const llm = getModel("ark", "doubao-pro-32k");
+
+		it("should complete basic text generation", { retry: 3 }, async () => {
+			await basicTextGeneration(llm);
+		});
+
+		it("should handle tool calling", { retry: 3 }, async () => {
+			await handleToolCall(llm);
+		});
+
+		it("should handle streaming", { retry: 3 }, async () => {
+			await handleStreaming(llm);
+		});
+	});
 });

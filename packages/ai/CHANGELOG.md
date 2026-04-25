@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added Ark (Volcano Engine) provider with `ark-responses` API, supporting Doubao and DeepSeek models via `ARK_API_KEY` authentication.
+
 ### Fixed
 
 - Fixed OpenAI-compatible prompt cache tests to cover proxies that explicitly disable long cache retention.
